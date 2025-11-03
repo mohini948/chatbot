@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          appointment_date: string
+          appointment_type: string
+          created_at: string
+          id: string
+          notes: string | null
+          provider_name: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          appointment_date: string
+          appointment_type: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          provider_name: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          appointment_date?: string
+          appointment_type?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          provider_name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -35,6 +71,81 @@ export type Database = {
           title?: string | null
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      feedback: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          rating: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          rating?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          rating?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      medicine_reminders: {
+        Row: {
+          created_at: string
+          dosage: string
+          end_date: string | null
+          frequency: string
+          id: string
+          is_active: boolean
+          medicine_name: string
+          notes: string | null
+          start_date: string
+          time_of_day: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dosage: string
+          end_date?: string | null
+          frequency: string
+          id?: string
+          is_active?: boolean
+          medicine_name: string
+          notes?: string | null
+          start_date: string
+          time_of_day: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dosage?: string
+          end_date?: string | null
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          medicine_name?: string
+          notes?: string | null
+          start_date?: string
+          time_of_day?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }

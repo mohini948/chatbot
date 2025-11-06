@@ -20,6 +20,12 @@ serve(async (req) => {
 
     console.log("Received chat request with", messages.length, "messages");
 
+    // Allow selecting the model via environment variable so we can switch
+    // to Claude Sonnet 3.5 (or any other gateway-supported model) without
+    // changing code. Set LOVABLE_MODEL in the function's environment.
+    const LOVABLE_MODEL = Deno.env.get("LOVABLE_MODEL") || "google/gemini-2.5-flash";
+    console.log("Using AI model:", LOVABLE_MODEL);
+
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -27,7 +33,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: LOVABLE_MODEL,
         messages: [
           {
             role: "system",

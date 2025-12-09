@@ -32,10 +32,8 @@ export default function Feedback() {
 
     setIsLoading(true);
 
-    const { data: { user } } = await supabase.auth.getUser();
-
     const { error } = await supabase.from("feedback").insert({
-      user_id: user?.id || null,
+      user_id: "guest-user",
       name,
       email,
       message,

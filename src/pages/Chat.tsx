@@ -6,7 +6,6 @@ import { AlertCircle, LogOut, ArrowLeft } from "lucide-react";
 import { ChatMessage } from "@/components/ChatMessage";
 import { ChatInput } from "@/components/ChatInput";
 import { TypingIndicator } from "@/components/TypingIndicator";
-import { Auth } from "@/components/Auth";
 import { useNavigate } from "react-router-dom";
 
 interface Message {
@@ -23,21 +22,9 @@ export default function Chat() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        initializeConversation();
-      }
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        initializeConversation();
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    // Skip auth - initialize conversation directly
+    setUser({ id: "guest-user" } as any);
+    initializeConversation();
   }, []);
 
   useEffect(() => {
@@ -48,7 +35,7 @@ export default function Chat() {
     const { data, error } = await supabase
       .from("conversations")
       .insert({
-        user_id: (await supabase.auth.getUser()).data.user?.id,
+        user_id: "guest-user",
         title: "New Conversation"
       })
       .select()
@@ -146,19 +133,12 @@ export default function Chat() {
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    // Just reset the chat
     setMessages([]);
     setConversationId(null);
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
-        <Auth />
-      </div>
-    );
-  }
-
+  // Always show chat - no auth gate
   return (
     <div className="h-screen flex flex-col bg-background">
       <header className="border-b bg-card p-4 shadow-soft">

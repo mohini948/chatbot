@@ -42,16 +42,7 @@ export default function Reminders() {
   }, []);
 
   const checkAuthAndFetchReminders = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to manage medicine reminders",
-        variant: "destructive"
-      });
-      navigate("/chat");
-      return;
-    }
+    // Skip auth check - use guest user
     fetchReminders();
   };
 
@@ -87,10 +78,8 @@ export default function Reminders() {
 
     setIsLoading(true);
 
-    const { data: { user } } = await supabase.auth.getUser();
-
     const { error } = await supabase.from("medicine_reminders").insert({
-      user_id: user?.id,
+      user_id: "guest-user",
       medicine_name: medicineName,
       dosage,
       frequency,

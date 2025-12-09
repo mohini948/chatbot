@@ -10,6 +10,7 @@ import Appointments from "./pages/Appointments";
 import Reminders from "./pages/Reminders";
 import Feedback from "./pages/Feedback";
 import NotFound from "./pages/NotFound";
+import DebugAuth from "./pages/DebugAuth";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/chatbot">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/chat" element={<Chat />} />
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/reminders" element={<Reminders />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/debug-auth" element={<DebugAuth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

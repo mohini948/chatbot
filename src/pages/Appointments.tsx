@@ -54,16 +54,7 @@ export default function Appointments() {
   }, []);
 
   const checkAuthAndFetchAppointments = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to manage appointments",
-        variant: "destructive"
-      });
-      navigate("/chat");
-      return;
-    }
+    // Skip auth check - use guest user
     fetchAppointments();
   };
 
@@ -97,8 +88,6 @@ export default function Appointments() {
       return;
     }
 
-    setIsLoading(true);
-
     const { data: { user } } = await supabase.auth.getUser();
 
     const appointmentDateTime = new Date(date);
@@ -109,7 +98,7 @@ export default function Appointments() {
     appointmentDateTime.setHours(hourNum, parseInt(minute), 0, 0);
 
     const { error } = await supabase.from("appointments").insert({
-      user_id: user?.id,
+      user_id: "guest-user",
       provider_name: providerName,
       appointment_date: appointmentDateTime.toISOString(),
       appointment_type: appointmentType,
